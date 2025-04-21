@@ -1,16 +1,36 @@
 {
-  "name": "assignment-appointment-management-system",
-  "version": "0.0.0",
-  "private": true,
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./bin/www"
   },
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "express-validator": "^7.2.0",
+    "http-errors": "^2.0.0",
+    "http-status": "^1.7.4",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.14",
+    "nodemon": "^3.1.4",
+    "redis": "^4.7.0",
+    "swagger": "^0.7.5",
+    "swagger-docs": "^0.0.0-alpha2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }
