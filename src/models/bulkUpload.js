@@ -9,14 +9,17 @@ const bulkUploadSchema = new Schema({
   },
   fileId: {
     type: String,
+    trim:true,
     required: true,
   },
   filePath: {
     type: String,
+    trim:true,
     required: true,
   },
   extension: {
     type: String,
+    trim:true,
     required: true,
   },
   status: {

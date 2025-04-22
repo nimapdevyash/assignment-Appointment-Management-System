@@ -39,6 +39,7 @@ const permissionSchema = new Schema(
   }
 );
 
+// 🔍 Exclude soft-deleted roles by default on all find queries
 permissionSchema.pre(/^find/, function (next) {
   this.where({ deletedAt: null });
   next();

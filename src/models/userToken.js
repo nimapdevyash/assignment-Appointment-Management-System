@@ -10,6 +10,7 @@ const userTokenSchema = new Schema(
     },
     token: {
       type: String,
+      trim: true,
       required: true,
     },
   },

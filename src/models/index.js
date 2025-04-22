@@ -1,24 +1,33 @@
 const fs = require("fs");
 const path = require("path");
-const mongoose = require("mongoose");
 
-const basename = path.basename(__filename);
+const modelsDirectory = __dirname;
+const indexFile = path.basename(__filename);
+
 const db = {};
 
-// Get the directory containing the models
-const modelsDir = __dirname;
-
-fs.readdirSync(modelsDir)
-  .filter(
-    (file) =>
-      file.indexOf(".") !== 0 &&
-      file !== basename &&
-      file.slice(-3) === ".js" &&
-      !file.includes(".test.js")
-  )
+// this automates the loading and exporting of all the models
+fs.readdirSync(modelsDirectory)
+  .filter((file) => {
+    const isJSFile = file.endsWith(".js");
+    const isNotIndex = file !== indexFile;
+    const isNotTest = !file.includes(".test.js");
+    const isVisible = !file.startsWith(".");
+    return isJSFile && isNotIndex && isNotTest && isVisible;
+  })
   .forEach((file) => {
-    const model = require(path.join(modelsDir, file));
-    db[model.modelName || path.basename(file, ".js")] = model; // Adjust for exporting directly
+    const modelPath = path.join(modelsDirectory, file);
+    const model = require(modelPath);
+
+    // Support both default and named exports
+    const exportedModel = model?.modelName ? model : model.default;
+
+    // default export will have filename as a modelname
+    const modelName = exportedModel?.modelName || path.basename(file, ".js");
+
+    if (modelName && exportedModel) {
+      db[modelName] = exportedModel;
+    }
   });
 
 module.exports = db;

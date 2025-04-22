@@ -57,9 +57,7 @@ const userSchema = new Schema(
   }
 );
 
-//
 // 🔐 Hash password before saving
-//
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
@@ -72,9 +70,7 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-//
 // 🔐 Hash password before updating
-//
 userSchema.pre("findOneAndUpdate", async function (next) {
   const update = this._update;
 
@@ -89,17 +85,13 @@ userSchema.pre("findOneAndUpdate", async function (next) {
   next();
 });
 
-//
 // 🧹 Exclude soft-deleted users by default
-//
 userSchema.pre(/^find/, function (next) {
   this.where({ deletedAt: null });
   next();
 });
 
-//
 // 🧪 Compare password during login
-//
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };

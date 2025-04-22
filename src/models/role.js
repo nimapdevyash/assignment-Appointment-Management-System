@@ -6,9 +6,11 @@ const roleSchema = new Schema(
     name: {
       type: String,
       required: true,
+      trim: true, 
     },
     description: {
       type: String,
+      trim: true,
     },
     permissions: [
       {
@@ -27,11 +29,12 @@ const roleSchema = new Schema(
   }
 );
 
+// 🔍 Exclude soft-deleted roles by default on all find queries
 roleSchema.pre(/^find/, function (next) {
   this.where({ deletedAt: null });
   next();
 });
 
-const role = mongoose.model("role", roleSchema);
+const Role = mongoose.model("role", roleSchema);
 
-module.exports = role;
+module.exports = Role;
