@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const createRoute = require("../../utils/createRoute");
 const checkAuth = require("../middleWare/checkAuth");
-const { checkPermission } = require("../middleWare/checkPermission");
 
 const {
   insertMeeting,
