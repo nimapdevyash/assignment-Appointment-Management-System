@@ -29,7 +29,7 @@ createRoute(router, "get", "/report/custom-date", generateCustomDateReport, [
   checkAuth,
   checkPermission,
 ]);
-createRoute(router, "get", "/get-meetings", fetchUserMeetings),
+createRoute(router, "get", "/my-meetings", fetchUserMeetings),
   [checkAuth, checkPermission];
 createRoute(router, "get", "/", fetchAllMeetings, [checkAuth, checkPermission]);
 createRoute(router, "get", "/:id", fetchMeetingById, [
