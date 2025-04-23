@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { errorWrapper } = require("../../utils/errorWrapper");
+const createRoute = require("../../utils/createRoute");
 const checkAuth = require("../middleWare/checkAuth");
 const { checkPermission } = require("../middleWare/checkPermission");
 
@@ -15,25 +15,26 @@ const {
   unblockOtherUser,
 } = require("../controllers/user");
 
-const createRoute = (method, path, middleware, handler) => {
-  const middlewares = Array.isArray(middleware)
-    ? middleware
-    : middleware
-    ? [middleware]
-    : [];
-
-  router[method](path, ...middlewares, errorWrapper(handler));
-};
-
-
 // Register routes
-createRoute('post', '/handle-invite/:meetingId', checkAuth, handleMeetingInvite);
-createRoute('put', '/block/:id', [checkAuth, checkPermission], blockOtherUser);
-createRoute('put', '/unblock/:id', [checkAuth, checkPermission], unblockOtherUser);
-createRoute('post', '/', null, insertUser);
-createRoute('get', '/', checkAuth, retrieveUser);
-createRoute('get', '/:id', checkAuth, retrieveUserById);
-createRoute('put', '/:id', checkAuth, modifyUser);
-createRoute('delete', '/:id', checkAuth, removeUser);
+createRoute(
+  router,
+  "post",
+  "/handle-invite/:meetingId",
+  handleMeetingInvite,
+  checkAuth
+);
+createRoute(router, "put", "/block/:id", blockOtherUser, [
+  checkAuth,
+  checkPermission,
+]);
+createRoute(router,"put", "/unblock/:id", unblockOtherUser, [
+  checkAuth,
+  checkPermission,
+]);
+createRoute(router, "post", "/", insertUser);
+createRoute(router, "get", "/", retrieveUser, checkAuth);
+createRoute(router, "get", "/:id", retrieveUserById, checkAuth);
+createRoute(router, "put", "/:id", modifyUser, checkAuth);
+createRoute(router, "delete", "/:id", removeUser, checkAuth);
 
 module.exports = router;

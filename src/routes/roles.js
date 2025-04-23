@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { errorWrapper } = require("../../utils/errorWrapper");
+const createRoute = require("../../utils/createRoute")
 const checkAuth = require("../middleWare/checkAuth");
 
 const {
@@ -11,16 +11,12 @@ const {
   removeRole,
 } = require("../controllers/role");
 
-// Helper function to register routes dynamically
-const createRoute = (method, path, handler) => {
-  router[method](path, checkAuth, errorWrapper(handler));
-};
 
 // Register routes
-createRoute('post', '/', insertRole);
-createRoute('get', '/', retrieveRole);
-createRoute('get', '/:id', retrieveRoleById);
-createRoute('put', '/:id', modifyRole);
-createRoute('delete', '/:id', removeRole);
+createRoute(router,'post', '/', insertRole , checkAuth);
+createRoute(router,'get', '/', retrieveRole , checkAuth);
+createRoute(router,'get', '/:id', retrieveRoleById, checkAuth);
+createRoute(router,'put', '/:id', modifyRole, checkAuth);
+createRoute(router,'delete', '/:id', removeRole, checkAuth);
 
 module.exports = router;

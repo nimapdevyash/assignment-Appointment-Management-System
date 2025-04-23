@@ -1,5 +1,5 @@
-const router = require("express").Router();
-const { errorWrapper } = require("../../utils/errorWrapper");
+const express = require("express");
+const router = express.Router();
 const checkAuth = require("../middleWare/checkAuth");
 const { checkPermission } = require("../middleWare/checkPermission");
 
@@ -10,25 +10,14 @@ const {
   modifyEntity,
   removeEntity,
 } = require("../controllers/entity");
+const createRoute = require("../../utils/createRoute");
 
-// Route for inserting a new entity
-router.post("/", checkAuth, checkPermission, errorWrapper(insertEntity));
 
-// Route for retrieving all entities
-router.get("/", checkAuth, checkPermission, errorWrapper(retrieveEntity));
-
-// Route for retrieving a single entity by its ID
-router.get(
-  "/:id",
-  checkAuth,
-  checkPermission,
-  errorWrapper(retrieveEntityById)
-);
-
-// Route for modifying an entity by its ID
-router.put("/:id", checkAuth, checkPermission, errorWrapper(modifyEntity));
-
-// Route for removing an entity by its ID
-router.delete("/:id", checkAuth, checkPermission, errorWrapper(removeEntity));
+// CRUD routes
+createRoute(router,"get", "/", retrieveEntity , [checkAuth, checkPermission]);
+createRoute(router,"post", "/", insertEntity, [checkAuth, checkPermission]);
+createRoute(router,"get", "/:id", retrieveEntityById, [checkAuth, checkPermission]);
+createRoute(router,"put", "/:id", modifyEntity, [checkAuth, checkPermission]);
+createRoute(router,"delete", "/:id", removeEntity, [checkAuth, checkPermission]);
 
 module.exports = router;

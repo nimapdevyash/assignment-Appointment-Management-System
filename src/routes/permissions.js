@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { errorWrapper } = require("../../utils/errorWrapper");
+const createRoute = require("../../utils/createRoute")
 const checkAuth = require("../middleWare/checkAuth");
 
 const {
@@ -11,16 +11,12 @@ const {
   removePermission,
 } = require("../controllers/permission");
 
-// Helper function to register routes dynamically
-const createRoute = (method, path, handler) => {
-  router[method](path, checkAuth, errorWrapper(handler));
-};
 
 // Register routes
-createRoute('post', '/', insertPermission);
-createRoute('get', '/', retrievePermission);
-createRoute('get', '/:id', retrievePermissionById);
-createRoute('put', '/:id', modifyPermission);
-createRoute('delete', '/:id', removePermission);
+createRoute(router,'post', '/', insertPermission, checkAuth);
+createRoute(router,'get', '/', retrievePermission, checkAuth);
+createRoute(router,'get', '/:id', retrievePermissionById, checkAuth);
+createRoute(router,'put', '/:id', modifyPermission, checkAuth);
+createRoute(router,'delete', '/:id', removePermission, checkAuth);
 
 module.exports = router;
