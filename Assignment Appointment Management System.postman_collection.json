@@ -1,0 +1,998 @@
+{
+	"info": {
+		"_postman_id": "44f0705b-3c17-4df7-930f-b39ae5888a13",
+		"name": "Assignment Appointment Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40888947"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"yash\",\r\n    \"lastName\": \"sawarkar\",\r\n    \"password\": \"Nimap@123\",\r\n    \"userName\": \"nimapdevyash\",\r\n    \"email\": \"yash.sawarkar@nimapinfotech.com\",\r\n    \"mobileNumber\": \"7507405875\",\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{assignmentURI}}/users",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"yash\",\r\n    \"lastName\": \"sawarkar\",\r\n    \"password\": \"Nimap@123\",\r\n    \"userName\": \"nimapdevyash\",\r\n    \"email\": \"yash.sawarkar@nimapinfotech.com\",\r\n    \"mobileNumber\": \"7507405875\",\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{assignmentURI}}/users",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"yash\",\r\n    \"lastName\": \"sawarkar\",\r\n    \"password\": \"Nimap@123\",\r\n    \"userName\": \"nimapdevyash\",\r\n    \"email\": \"yash.sawarkar@nimapinfotech.com\",\r\n    \"mobileNumber\": \"7507405875\",\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{assignmentURI}}/users/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"yash\",\r\n    \"lastName\": \"sawarkar\",\r\n    \"password\": \"Nimap@123\",\r\n    \"userName\": \"nimapdevyash\",\r\n    \"email\": \"yash.sawarkar@nimapinfotech.com\",\r\n    \"mobileNumber\": \"7507405875\",\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{assignmentURI}}/users/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove user by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"yash\",\r\n    \"lastName\": \"sawarkar\",\r\n    \"password\": \"Nimap@123\",\r\n    \"userName\": \"nimapdevyash\",\r\n    \"email\": \"yash.sawarkar@nimapinfotech.com\",\r\n    \"mobileNumber\": \"7507405875\",\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{assignmentURI}}/users/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "block user by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"yash\",\r\n    \"lastName\": \"sawarkar\",\r\n    \"password\": \"Nimap@123\",\r\n    \"userName\": \"nimapdevyash\",\r\n    \"email\": \"yash.sawarkar@nimapinfotech.com\",\r\n    \"mobileNumber\": \"7507405875\",\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{assignmentURI}}/users/block/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"users",
+								"block",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unblock user by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"yash\",\r\n    \"lastName\": \"sawarkar\",\r\n    \"password\": \"Nimap@123\",\r\n    \"userName\": \"nimapdevyash\",\r\n    \"email\": \"yash.sawarkar@nimapinfotech.com\",\r\n    \"mobileNumber\": \"7507405875\",\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{assignmentURI}}/users/unblock/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"users",
+								"unblock",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "handle invite",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"yash\",\r\n    \"lastName\": \"sawarkar\",\r\n    \"password\": \"Nimap@123\",\r\n    \"userName\": \"nimapdevyash\",\r\n    \"email\": \"yash.sawarkar@nimapinfotech.com\",\r\n    \"mobileNumber\": \"7507405875\",\r\n    \"role\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{assignmentURI}}/users/handle-invite/:meetingId",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"users",
+								"handle-invite",
+								":meetingId"
+							],
+							"variable": [
+								{
+									"key": "meetingId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "get role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/roles/",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"roles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get role by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/roles/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"roles",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update role by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/roles/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"roles",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete role by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/roles/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"roles",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add role",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/roles/",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"roles",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permissions",
+			"item": [
+				{
+					"name": "create permissions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/permissions/",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"permissions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get permissions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/permissions/",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"permissions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get permissions by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/permissions/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"permissions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modify permissions by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/permissions/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"permissions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove permissions by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/permissions/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"permissions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Meeting",
+			"item": [
+				{
+					"name": "add meeting",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/meetings",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"meetings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get meeting by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/meetings/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"meetings",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove meeting by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/meetings/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"meetings",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all meetings",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/meetings/",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"meetings",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all users meetings ",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/meetings/my-meetings",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"meetings",
+								"my-meetings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all meetings for a custom date",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/meetings/report/custom-date",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"meetings",
+								"report",
+								"custom-date"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all meetings for a month",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/meetings/report/monthly",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"meetings",
+								"report",
+								"monthly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "export all meetings for a custom range",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/meetings/export",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"meetings",
+								"export"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Entities",
+			"item": [
+				{
+					"name": "add entities",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/entities",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"entities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get entities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/entities",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"entities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get entity by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/entities/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"entities",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update entity by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/entities/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"entities",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove entity by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/entities/:id",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"entities",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bulk Upload",
+			"item": [
+				{
+					"name": "get files",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/bulk-upload",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"bulk-upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload files",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/bulk-upload",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"bulk-upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/auth/login",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/auth/logout",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/auth/forgot-password",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{assignmentURI}}/auth//reset-password/:token",
+							"host": [
+								"{{assignmentURI}}"
+							],
+							"path": [
+								"auth",
+								"",
+								"reset-password",
+								":token"
+							],
+							"variable": [
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "health cheak",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URI}}",
+					"host": [
+						"{{URI}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
