@@ -1,34 +1,32 @@
 const httpStatus = require("http-status");
 
-/**
- * Standard response sender
- * @param {Object} res - Express.js response object
- * @param {Number} statusCode - HTTP status code
- * @param {Object} options - Response payload (message, data, etc.)
- */
-const sendResponse = (res, statusCode, options) => {
-  return res.status(statusCode).send({ statusCode, ...options });
+// Standard response sender
+const sendResponse = (res, statusCode, message) => {
+  return res.status(statusCode).send({ statusCode, message });
 };
 
 module.exports = {
-  ok: (res, options = { message: "Data found" }) =>
-    sendResponse(res, httpStatus.OK, options),
+  ok: (res,  message = "Data found" ) =>
+    sendResponse(res, httpStatus.OK, message),
 
-  created: (res, options = { message: "Data inserted" }) =>
-    sendResponse(res, httpStatus.CREATED, options),
+  created: (res, message = "Data inserted" ) =>
+    sendResponse(res, httpStatus.CREATED, message),
 
-  badRequest: (res, options = { message: "Bad request" }) =>
-    sendResponse(res, httpStatus.BAD_REQUEST, options),
+  badRequest: (res, message = "Bad request" ) =>
+    sendResponse(res, httpStatus.BAD_REQUEST, message),
 
-  noData: (res, options = { message: "No data found" }) =>
-    sendResponse(res, httpStatus.NOT_FOUND, options),
+  noData: (res, message = "No data found" ) =>
+    sendResponse(res, httpStatus.NOT_FOUND, message),
 
-  noContent: (res, options = { message: "No content" }) =>
-    sendResponse(res, httpStatus.NO_CONTENT, options),
+  noContent: (res, message = "No content" ) =>
+    sendResponse(res, httpStatus.NO_CONTENT, message),
 
-  unauthorized: (res, options = { message: "Unauthorized" }) =>
-    sendResponse(res, httpStatus.UNAUTHORIZED, options),
+  unauthorized: (res,  message = "Unauthorized" ) =>
+    sendResponse(res, httpStatus.UNAUTHORIZED, message),
 
-  unprocessableEntity: (res, options = { message: "Unprocessable Entity" }) =>
-    sendResponse(res, httpStatus.UNPROCESSABLE_ENTITY, options),
+  unprocessableEntity: (res, message = "Unprocessable Entity" ) =>
+    sendResponse(res, httpStatus.UNPROCESSABLE_ENTITY, message),
+
+  serverError: (res, message = "Internal server error" ) =>
+    sendResponse(res, httpStatus.INTERNAL_SERVER_ERROR, message),
 };
