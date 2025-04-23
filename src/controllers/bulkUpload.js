@@ -23,7 +23,7 @@ exports.insertBulkUpload = async (req, res) => {
 
 exports.getFile = async (req, res) => {
   try {
-    const result = await getUploadDetails(req);
+    const result = await getUploadDetails();
 
     // Ensure result is found
     if (!result) {

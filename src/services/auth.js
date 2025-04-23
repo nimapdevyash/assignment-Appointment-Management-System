@@ -75,7 +75,7 @@ exports.requestResetPasswordLink = async ({ email }) => {
 
   const resetUrl = new URL(
     `/api/auth/reset-password/${resetToken}`,
-    process.env.URL || "http://localhost:3000"
+    process.env.URL
   ).toString();
 
   await sendEmail(user.email, "Password Reset", htmlContent(resetUrl));

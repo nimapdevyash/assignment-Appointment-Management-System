@@ -14,10 +14,16 @@ const validateFields = (body, requiredFields) => {
 };
 
 exports.createPermission = async (body) => {
+  const requiredFields = [
+    "entity",
+    "actionName",
+    "description",
+    "baseUrl",
+    "path",
+    "method",
+  ];
 
-  const requiredFields = ["entity", "actionName", "description", "baseUrl", "path", "method"];
-  
-  validateFields(body, requiredFields);  // Using helper for validation
+  validateFields(body, requiredFields);
 
   const permission = await db.permission.create(body);
   if (!permission) throw new BadRequestError("Failed to create permission");
@@ -26,7 +32,6 @@ exports.createPermission = async (body) => {
 };
 
 exports.fetchPermissionDetails = async () => {
-
   const permissions = await db.permission.find({}, "_id");
   if (!permissions.length) throw new DataNotFoundError("No permissions found");
 
@@ -43,20 +48,19 @@ exports.fetchPermissionDetails = async () => {
 };
 
 exports.fetchPermissionById = async (_id) => {
-
   if (!_id) throw new ValidationError("Permission ID is required");
 
   const permission = await db.permission
     .findOne({ _id, deletedAt: { $exists: false } })
     .populate("entity");
 
-  if (!permission) throw new DataNotFoundError(`No permission found with ID ${_id}`);
+  if (!permission)
+    throw new DataNotFoundError(`No permission found with ID ${_id}`);
 
   return handleSuccess("Permission found", permission);
 };
 
 exports.updatePermissionById = async (_id, body) => {
-
   if (!_id) throw new ValidationError("Permission ID is required");
 
   const updatedPermission = await db.permission.findOneAndUpdate(
@@ -65,13 +69,13 @@ exports.updatePermissionById = async (_id, body) => {
     { new: true }
   );
 
-  if (!updatedPermission) throw new DataNotFoundError(`No permission found with ID ${_id}`);
+  if (!updatedPermission)
+    throw new DataNotFoundError(`No permission found with ID ${_id}`);
 
   return handleSuccess("Permission updated successfully", updatedPermission);
 };
 
 exports.deletePermissionById = async (_id) => {
-
   if (!_id) throw new ValidationError("Permission ID is required");
 
   const deletedPermission = await db.permission.findOneAndUpdate(
@@ -80,7 +84,8 @@ exports.deletePermissionById = async (_id) => {
     { new: true }
   );
 
-  if (!deletedPermission) throw new DataNotFoundError(`No permission found with ID ${_id}`);
+  if (!deletedPermission)
+    throw new DataNotFoundError(`No permission found with ID ${_id}`);
 
   return handleSuccess("Permission deleted successfully", deletedPermission);
 };
