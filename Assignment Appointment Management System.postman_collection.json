@@ -262,7 +262,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"yash\",\r\n    \"lastName\": \"sawarkar\",\r\n    \"password\": \"Nimap@123\",\r\n    \"userName\": \"nimapdevyash\",\r\n    \"email\": \"yash.sawarkar@nimapinfotech.com\",\r\n    \"mobileNumber\": \"7507405875\",\r\n    \"role\": \"\"\r\n}",
+							"raw": "{\r\n    \"status\" : \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -295,7 +295,7 @@
 			"name": "Roles",
 			"item": [
 				{
-					"name": "get role",
+					"name": "get all roles",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -347,6 +347,15 @@
 						},
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/roles/:id",
 							"host": [
@@ -401,6 +410,15 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/roles/",
 							"host": [
@@ -424,6 +442,15 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"entity\" : \"\",\r\n    \"actionName\" : \"\",\r\n    \"description\" : \"\",\r\n    \"baseUrl\" : \"\",\r\n    \"path\" : \"\",\r\n    \"method\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/permissions/",
 							"host": [
@@ -490,6 +517,15 @@
 						},
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"entity\" : \"\",\r\n    \"actionName\" : \"\",\r\n    \"description\" : \"\",\r\n    \"baseUrl\" : \"\",\r\n    \"path\" : \"\",\r\n    \"method\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/permissions/:id",
 							"host": [
@@ -546,6 +582,15 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"\",\r\n    \"attendees\": \"\",\r\n    \"date\": \"\",\r\n    \"time\": \"\",\r\n    \"attendeesStatus\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/meetings",
 							"host": [
@@ -732,6 +777,15 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"\",\r\n    \"description\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/entities",
 							"host": [
@@ -745,7 +799,7 @@
 					"response": []
 				},
 				{
-					"name": "get entities",
+					"name": "get all entities",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -796,6 +850,15 @@
 						},
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"\",\r\n    \"description\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/entities/:id",
 							"host": [
@@ -872,6 +935,16 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/bulk-upload",
 							"host": [
@@ -894,6 +967,15 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/auth/login",
 							"host": [
@@ -936,6 +1018,15 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{assignmentURI}}/auth/forgot-password",
 							"host": [
