@@ -4,27 +4,39 @@ const path = require("path");
 
 const router = express.Router();
 
-// Get the current file name (index.js) to avoid importing it
+// Get the current file name to avoid re-importing itself
 const basename = path.basename(__filename);
 
-// Dynamically load routes
+// Dynamically load all route files in this directory
 fs.readdirSync(__dirname)
   .filter((file) => {
-    // Ensure the file is a JavaScript file and not the current file or a hidden file
-    return file.endsWith(".js") && file !== basename && !file.startsWith(".");
+    // Only include JS files that aren't this file and aren't hidden
+    return (
+      file.endsWith(".js") &&
+      file !== basename &&
+      !file.startsWith(".")
+    );
   })
   .forEach((file) => {
-    // Extract the model name from the filename (e.g., "entity.js" => "entity")
-    const routeName = path.basename(file, ".js").toLowerCase();
+    try {
+      // Extract route name (e.g., "users.js" → "users")
+      const routeName = path.basename(file, ".js").toLowerCase();
 
-    // Define the route dynamically based on the filename
-    const route = require(path.join(__dirname, file));
+      // Import the route file
+      const routeModule = require(path.join(__dirname, file));
 
-    // Set the main route as the lowercase of the model name
-    const mainRoute = `/${routeName}`;
+      if (!routeModule || typeof routeModule !== "function" && typeof routeModule.use !== "function") {
+        console.warn(`⚠️ Skipped route '${file}' — it does not export a valid router.`);
+        return;
+      }
 
-    // Dynamically use the route module for the current path
-    router.use(mainRoute, route);
+      // Mount the route
+      router.use(`/${routeName}`, routeModule);
+      console.log(`✅ Loaded route: /${routeName}`);
+    } catch (error) {
+      console.error(`❌ Error loading route file: ${file}`);
+      console.error(error);
+    }
   });
 
 module.exports = router;

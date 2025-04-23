@@ -15,10 +15,16 @@ const {
   unblockOtherUser,
 } = require("../controllers/user");
 
-// Helper function to register routes dynamically
 const createRoute = (method, path, middleware, handler) => {
-  router[method](path, middleware, errorWrapper(handler));
+  const middlewares = Array.isArray(middleware)
+    ? middleware
+    : middleware
+    ? [middleware]
+    : [];
+
+  router[method](path, ...middlewares, errorWrapper(handler));
 };
+
 
 // Register routes
 createRoute('post', '/handle-invite/:meetingId', checkAuth, handleMeetingInvite);
