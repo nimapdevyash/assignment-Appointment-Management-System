@@ -21,18 +21,21 @@ const createToken = (userId, userName) => {
 
 // Login User
 exports.userLogin = async (email, password) => {
+
   const user = await db.user.findOne({ email });
+
   if (!user) {
     throw new DataNotFoundError(`User not found with Email ${email}`);
   }
 
   const isPasswordValid = await user.comparePassword(password);
+  
   if (!isPasswordValid) {
     throw new ValidationError("Invalid Password!");
   }
 
-  const token = createToken(user._id, user.userName || "User");
-  await client.set(`user:${user._id}`, token);
+  const token = createToken(user._id, user.userName);
+  await client.set(token , `user:${user._id}`);
 
   const userToken = await db.userToken.findOneAndUpdate(
     { userId: user._id },
@@ -49,18 +52,16 @@ exports.userLogin = async (email, password) => {
 // Logout User
 exports.userLogout = async (userId) => {
   const userToken = await db.userToken.findOne({ userId });
-  const result = await db.userToken.deleteOne({ userId });
 
   if (userToken) {
-    await client.del(`user:${userId}`);
-  }
-
-  if (result.deletedCount) {
+    await client.del(userToken.token); // delete from Redis
+    await db.userToken.deleteOne({ userId }); // remove from DB
     return handleSuccess("User logged out successfully");
   }
 
-  throw new BadRequestError("User logout failed");
+  throw new BadRequestError("User logout failed or already logged out");
 };
+
 
 // Request Password Reset Link
 exports.requestResetPasswordLink = async ({ email }) => {

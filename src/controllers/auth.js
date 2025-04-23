@@ -25,7 +25,7 @@ exports.loginUser = async (req, res) => {
 
 exports.logoutUser = async (req, res) => {
   try {
-    const userId = req.userDetail.id;
+    const userId = req.user.id;
 
     // Ensure user is logged in
     if (!userId) {
