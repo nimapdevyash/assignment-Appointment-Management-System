@@ -6,7 +6,7 @@ const { insertBulkUpload, getFile } = require("../controllers/bulkUpload");
 const { upload } = require("../../utils/upload");
 const createRoute = require("../../utils/createRoute");
 
-createRoute(router , "get" , "/" , getFile , [checkAuth, checkPermission])
-createRoute(router , "post" , "/" , insertBulkUpload , [checkAuth, checkPermission , upload])
+createRoute(router , "get" , "/" , getFile , checkAuth)
+createRoute(router , "post" , "/" , insertBulkUpload , [checkAuth , upload])
 
 module.exports = router;

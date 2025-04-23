@@ -16,29 +16,13 @@ const {
 } = require("../controllers/meeting");
 
 // Register routes
-createRoute(router, "post", "/", insertMeeting, [checkAuth, checkPermission]);
-createRoute(router, "get", "/report/monthly", generateMontlyReport, [
-  checkAuth,
-  checkPermission,
-]);
-createRoute(router, "get", "/export", exportMeetings, [
-  checkAuth,
-  checkPermission,
-]);
-createRoute(router, "get", "/report/custom-date", generateCustomDateReport, [
-  checkAuth,
-  checkPermission,
-]);
-createRoute(router, "get", "/my-meetings", fetchUserMeetings),
-  [checkAuth, checkPermission];
-createRoute(router, "get", "/", fetchAllMeetings, [checkAuth, checkPermission]);
-createRoute(router, "get", "/:id", fetchMeetingById, [
-  checkAuth,
-  checkPermission,
-]);
-createRoute(router, "delete", "/:id", removeMeetingById, [
-  checkAuth,
-  checkPermission,
-]);
+createRoute(router, "post", "/", insertMeeting, checkAuth);
+createRoute(router, "get", "/report/monthly", generateMontlyReport,  checkAuth);
+createRoute(router, "get", "/export", exportMeetings, checkAuth);
+createRoute(router, "get", "/report/custom-date", generateCustomDateReport, checkAuth);
+createRoute(router, "get", "/my-meetings", fetchUserMeetings , checkAuth);
+createRoute(router, "get", "/", fetchAllMeetings, checkAuth);
+createRoute(router, "get", "/:id", fetchMeetingById, checkAuth);
+createRoute(router, "delete", "/:id", removeMeetingById, checkAuth);
 
 module.exports = router;

@@ -33,8 +33,9 @@ const userSchema = new Schema(
     },
 
     role: {
-      type: Schema.Types.ObjectId,
-      ref: "role",
+      type: String,
+      enum: ["Developer" , "Manager"],
+      default: "Developer",
       required: true,
     },
 

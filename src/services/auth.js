@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const db = require("../models");
-const client = require("../../config/redis");
+const { client } = require("../../config/redis");
 const sendEmail = require("../../utils/email");
 const { htmlContent } = require("../../utils/resetPasswordHTML");
 const { handleSuccess } = require("../../utils/successHandler");

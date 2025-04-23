@@ -23,14 +23,8 @@ createRoute(
   handleMeetingInvite,
   checkAuth
 );
-createRoute(router, "put", "/block/:id", blockOtherUser, [
-  checkAuth,
-  checkPermission,
-]);
-createRoute(router,"put", "/unblock/:id", unblockOtherUser, [
-  checkAuth,
-  checkPermission,
-]);
+createRoute(router, "put", "/block/:id", blockOtherUser,checkAuth);
+createRoute(router,"put", "/unblock/:id", unblockOtherUser, checkAuth);
 createRoute(router, "post", "/", insertUser);
 createRoute(router, "get", "/", retrieveUser, checkAuth);
 createRoute(router, "get", "/:id", retrieveUserById, checkAuth);

@@ -20,7 +20,11 @@ exports.createUser = async (userData) => {
   const userCreated = await db.user.create(userData);
   if (!userCreated) throw new BadRequestError("Failed to create user");
 
-  return handleSuccess("User created successfully", userCreated);
+  // Convert to plain JS object and remove password
+  const userObj = userCreated.toObject();
+  delete userObj.password;
+
+  return handleSuccess("User created successfully", userObj);
 };
 
 exports.fetchUserDetails = async () => {
