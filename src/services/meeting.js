@@ -2,7 +2,7 @@ const ExcelJS = require("exceljs");
 const moment = require("moment-timezone");
 const path = require("path");
 const db = require("../models/index");
-const { filePath } = require("../../utils/constant");
+const { exportsPath } = require("../../utils/constant");
 const { BadRequestError, DataNotFoundError } = require("../../utils/customError");
 const { handleSuccess } = require("../../utils/successHandler");
 const { where } = require("../models/user");
@@ -149,14 +149,20 @@ exports.generateReportForCustomDate = async ({ startDate, endDate }) => {
 };
 
 exports.exportUserMeetings = async ({ startDate, endDate }, req) => {
+
+  if(!startDate || !endDate) {
+    throw new BadRequestError("startDate and endDate are required");
+  }
+  
   const userId = req.user.id;
-  const sDate = new Date(startDate || "01/01/1900");
-  const eDate = new Date(endDate || "12/31/2025");
+  const sDate = moment.tz(startDate, "DD-MM-YYYY", "Asia/Kolkata").format("DD-MM-YYYY");
+  const eDate = moment.tz(endDate, "DD-MM-YYYY", "Asia/Kolkata").format("DD-MM-YYYY");
+
 
   const meetings = await db.meeting.find({
-    $or: [{ createdBy: userId }, { attendees: userId }],
-    "attendeesStatus.status": "Accepted",
-  }).populate("attendees");
+    $or: [{ createdBy: userId }, { "attendees.attendee": userId }],
+    "attendees.status": "Pending",
+  }).populate("attendees.attendee");  
 
   if (!meetings.length) throw new DataNotFoundError("No meetings found to export");
 
@@ -167,7 +173,7 @@ exports.exportUserMeetings = async ({ startDate, endDate }, req) => {
     title,
     date,
     time,
-    attendees: attendees.map(({ firstName, lastName }) => `${firstName} ${lastName}`).join(", ")
+    attendees: attendees.map(({ attendee }) => `${attendee.firstName} ${attendee.lastName}`).join(", ")
   }));
 
   const file = await addDataToXlsx(data);
@@ -189,7 +195,7 @@ async function addDataToXlsx(data) {
   worksheet.addRows(data);
 
   const fileName = `meetingsexport-${Date.now()}.xlsx`;
-  const outputPath = path.join(filePath, "exports", fileName);
+  const outputPath = path.join(exportsPath, fileName);
   await workbook.xlsx.writeFile(outputPath);
 
   return `${process.env.URL}/exports/${fileName}`;
