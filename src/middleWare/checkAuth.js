@@ -1,7 +1,8 @@
-const jwt = require("jsonwebtoken");
 const db = require("../models");
 const response = require("../../utils/response");
 const { client } = require("../../config/redis");
+const { verifyAcessToken } = require("../services/jwt");
+const { use } = require("../routes/auth");
 
 module.exports = async (req, res, next) => {
   try {
@@ -16,22 +17,20 @@ module.exports = async (req, res, next) => {
     }
 
     // Validate JWT Token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = verifyAcessToken(token);
+
     if (!decoded || !decoded.userId) {
       return response.unauthorized(res, "Invalid token.");
     }
 
     // Check Redis first
-    const redisValue = await client.get(token);
-    if (!redisValue) {
+    const redisToken = await client.get(decoded.userId);
+    if (!redisToken) {
       return response.unauthorized(res, "Token expired or logged out.");
     }
 
-    // Check token in DB
-    const dbToken = await db.userToken.findOne({ token });
-    if (!dbToken) {
-      await client.del(token); // Clean up redis if token was manually removed from DB
-      return response.unauthorized(res, "Token not found in database.");
+    if(redisToken !== token) {
+      return response.unauthorized(res, "Invalid Token");
     }
 
     // Attach user ID to request

@@ -5,6 +5,7 @@ const {
   userLogout,
 } = require("../services/auth");
 const response = require("../../utils/response");
+const { verifyAcessToken } = require("../services/jwt");
 
 exports.loginUser = async (req, res) => {
   try {
@@ -25,14 +26,16 @@ exports.loginUser = async (req, res) => {
 
 exports.logoutUser = async (req, res) => {
   try {
-    const userId = req.user.id;
 
-    // Ensure user is logged in
-    if (!userId) {
-      return response.unauthorized(res, "User not logged in.");
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; 
+    if (!token) {
+      return response.unauthorized(res, "Token is missing, User not logged in.");
     }
 
-    const loggedOutUser = await userLogout(userId);
+    const decoded = verifyAcessToken(token) ;
+
+    const loggedOutUser = await userLogout(decoded);
     return response.ok(res, loggedOutUser);
   } catch (error) {
     console.error(error);

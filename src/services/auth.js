@@ -9,15 +9,10 @@ const {
   DataNotFoundError,
   BadRequestError,
 } = require("../../utils/customError");
+const { createAcessToken } = require("./jwt");
 
 require("dotenv").config();
 
-// Generates a signed JWT token
-const createToken = (userId, userName) => {
-  return jwt.sign({ userId, name: userName }, process.env.JWT_SECRET, {
-    expiresIn: process.env.EXPIRES_IN || "24h",
-  });
-};
 
 // Login User
 exports.userLogin = async (email, password) => {
@@ -28,38 +23,40 @@ exports.userLogin = async (email, password) => {
     throw new DataNotFoundError(`User not found with Email ${email}`);
   }
 
+  const pToken = await client.get(`${user._id}`)
+
+  if(pToken) {
+    return handleSuccess("User is Already Logged in" , {
+      userId : user._id,
+      token : pToken
+    });
+  }
+
   const isPasswordValid = await user.comparePassword(password);
   
   if (!isPasswordValid) {
     throw new ValidationError("Invalid Password!");
   }
 
-  const token = createToken(user._id, user.userName);
-  await client.set(token , `user:${user._id}`);
-
-  const userToken = await db.userToken.findOneAndUpdate(
-    { userId: user._id },
-    { token },
-    { new: true, upsert: true }
-  );
+  const token = await createAcessToken({userId : user._id}) ;
+  await client.set( `${user._id}` ,token );
 
   return handleSuccess("User logged in successfully", {
     userId: user._id,
-    token: userToken.token,
+    token
   });
 };
 
 // Logout User
-exports.userLogout = async (userId) => {
-  const userToken = await db.userToken.findOne({ userId });
+exports.userLogout = async (user) => {
 
-  if (userToken) {
-    await client.del(userToken.token); // delete from Redis
-    await db.userToken.deleteOne({ userId }); // remove from DB
-    return handleSuccess("User logged out successfully");
+  const delCOunt = await client.del(user.userId)
+
+  if (!delCOunt) {
+    throw new BadRequestError("User logout failed or already logged out");
   }
 
-  throw new BadRequestError("User logout failed or already logged out");
+  return handleSuccess("User logged out successfully");
 };
 
 
