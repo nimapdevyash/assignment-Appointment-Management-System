@@ -1,13 +1,5 @@
 const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
-
 /**
  * Sends an email using nodemailer
  * @param {string} to - Recipient's email address
@@ -15,8 +7,19 @@ const transporter = nodemailer.createTransport({
  * @param {string} html - Email body in HTML format
  * @param {string} [from=process.env.EMAIL_USER] - Optional sender name/email
  */
-const sendEmail = async (to, subject, html, from = `"Yash" <${process.env.EMAIL_USER}>`) => {
+const sendEmail = async (to, subject, html, from = process.env.EMAIL_USER) => {
   try {
+
+    const transporter = nodemailer.createTransport({
+      port: 465,
+      service: "gmail",
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    })
+
     await transporter.sendMail({ to, from, subject, html });
     console.log(`✅ Email sent successfully to ${to}`);
   } catch (error) {

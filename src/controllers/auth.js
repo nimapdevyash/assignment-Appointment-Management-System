@@ -65,15 +65,15 @@ exports.sendResetPasswordLink = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   try {
-    const { token } = req.params;
     const { newPassword } = req.body;
+    const userId = req.user.id ;
 
     // Ensure new password is provided
     if (!newPassword) {
       return response.badRequest(res, "New password is required.");
     }
 
-    const resetPass = await resetPassword(token, { newPassword });
+    const resetPass = await resetPassword(userId,newPassword);
     return response.ok(res, resetPass);
   } catch (error) {
     console.error(error);

@@ -67,7 +67,7 @@ exports.requestResetPasswordLink = async ({ email }) => {
     throw new DataNotFoundError(`User not found with Email ${email}`);
   }
 
-  const resetToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+  const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
     expiresIn: "15m",
   });
 
@@ -82,21 +82,15 @@ exports.requestResetPasswordLink = async ({ email }) => {
 };
 
 // Reset Password
-exports.resetPassword = async (token, { newPassword }) => {
-  let decoded;
-  try {
-    decoded = jwt.verify(token, JWT_SECRET);
-  } catch (err) {
-    throw new BadRequestError("Invalid or expired reset token");
-  }
-
+exports.resetPassword = async (userId,newPassword) => {
+  
   const user = await db.user.findOneAndUpdate(
-    { _id: decoded.userId },
+    { _id: userId },
     { password: newPassword }
   );
 
   if (!user) {
-    throw new DataNotFoundError(`User not found with ID ${decoded.userId}`);
+    throw new DataNotFoundError(`User not found with ID ${userId}`);
   }
 
   return handleSuccess("Password reset successfully");

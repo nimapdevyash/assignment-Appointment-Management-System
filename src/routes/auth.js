@@ -15,6 +15,6 @@ const createRoute = require("../../utils/createRoute");
 createRoute(router,"post", "/logout", logoutUser , checkAuth);
 createRoute(router,"post", "/login", loginUser);
 createRoute(router,"post", "/forgot-password", sendResetPasswordLink ,checkAuth);
-createRoute(router,"post", "/reset-password/:token", resetPassword);
+createRoute(router,"post", "/reset-password", resetPassword , checkAuth);
 
 module.exports = router;

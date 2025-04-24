@@ -23,9 +23,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // API Routes
 app.use("/api", indexRouter);
 
-// Health Check Route
-app.use("/", (req, res) => res.send("App is working fine"));
-
 // Catch 404 Errors
 app.use((req, res, next) => {
   next(createError(404));
