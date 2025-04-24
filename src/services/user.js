@@ -87,23 +87,29 @@ exports.deleteUserById = async (_id) => {
   return handleSuccess("User deleted successfully", removedUser);
 };
 
-exports.handleMeetingInvitation = async (meetingId, userId, body) => {
-  if (!meetingId || !userId || !body.status) {
+exports.handleMeetingInvitation = async (meetingId, userId, status) => {
+
+  if (!meetingId || !userId || !status) {
     throw new ValidationError("Meeting ID, User ID, and status are required");
   }
 
+  const validStatuses = ["Pending", "Accepted", "Declined"];
+  if (!validStatuses.includes(status)) {
+    throw new Error("Invalid status value");
+  }
+
   const updatedMeeting = await db.meeting.findOneAndUpdate(
-    { _id: meetingId, "attendeesStatus.attendee": userId },
-    { $set: { "attendeesStatus.$.status": body.status } },
+    { _id: meetingId, "attendees.attendee": userId },
+    { $set: { "attendees.$.status": status } },
     { new: true, runValidators: true }
-  );
+  );  
 
   if (!updatedMeeting) {
     throw new BadRequestError("You are not invited to the given meeting");
   }
 
   return handleSuccess(
-    `Invitation for meeting ${updatedMeeting.title} has been ${body.status}`,
+    `Invitation for meeting ${updatedMeeting.title} has been ${status}`,
     updatedMeeting
   );
 };

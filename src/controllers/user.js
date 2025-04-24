@@ -84,9 +84,10 @@ exports.removeUser = async (req, res) => {
 
 exports.handleMeetingInvite = async (req, res) => {
   const { meetingId } = req.params;
-  const userId = req["user"].id;
+  const userId = req.user.id;
+  const {status} = req.body ;
   try {
-    const result = await handleMeetingInvitation(meetingId, userId, req.body);
+    const result = await handleMeetingInvitation(meetingId, userId, status);
     return response.ok(res, result);
   } catch (error) {
     console.error(error);
