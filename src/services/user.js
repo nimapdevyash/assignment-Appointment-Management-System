@@ -5,11 +5,21 @@ const {
   BadRequestError,
 } = require("../../utils/customError");
 const { handleSuccess } = require("../../utils/successHandler");
+const { path } = require("../..");
 
 // Helper function to validate user data
 const validateUserData = (userData) => {
-  const { firstName, lastName, password, userName, email, mobileNumber, role } = userData;
-  if (!firstName || !lastName || !password || !userName || !email || !mobileNumber || !role) {
+  const { firstName, lastName, password, userName, email, mobileNumber, role } =
+    userData;
+  if (
+    !firstName ||
+    !lastName ||
+    !password ||
+    !userName ||
+    !email ||
+    !mobileNumber ||
+    !role
+  ) {
     throw new ValidationError("All user fields are required");
   }
 };
@@ -92,11 +102,15 @@ exports.handleMeetingInvitation = async (meetingId, userId, body) => {
     throw new BadRequestError("You are not invited to the given meeting");
   }
 
-  return handleSuccess(`Invitation for meeting ${updatedMeeting.title} has been ${body.status}`, updatedMeeting);
+  return handleSuccess(
+    `Invitation for meeting ${updatedMeeting.title} has been ${body.status}`,
+    updatedMeeting
+  );
 };
 
 exports.blockUser = async (userId, userToBlock) => {
-  if (!userId || !userToBlock) throw new ValidationError("User ID and user to block are required");
+  if (!userId || !userToBlock)
+    throw new ValidationError("User ID and user to block are required");
 
   const user = await db.user.findOne({ _id: userId });
   if (!user) throw new DataNotFoundError(`No user found with ID ${userId}`);
@@ -109,8 +123,24 @@ exports.blockUser = async (userId, userToBlock) => {
   return handleSuccess("User blocked successfully");
 };
 
+exports.fetchAllBlockedUsers = async (userId) => {
+  if (!userId) throw new ValidationError("User ID is required");
+
+  const user = await db.user
+    .findOne({ _id: userId })
+    .populate({
+      path : "blockedUser",
+      select : "firstName lastName email"
+    });
+
+  if (!user) throw new DataNotFoundError(`No user found with ID ${userId}`);
+
+  return handleSuccess("blocked  Users fetched successfully", user.blockedUser);
+};
+
 exports.unblockUser = async (userId, userToUnblock) => {
-  if (!userId || !userToUnblock) throw new ValidationError("User ID and user to unblock are required");
+  if (!userId || !userToUnblock)
+    throw new ValidationError("User ID and user to unblock are required");
 
   const user = await db.user.findOne({ _id: userId });
   if (!user) throw new DataNotFoundError(`No user found with ID ${userId}`);

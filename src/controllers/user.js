@@ -7,6 +7,7 @@ const {
   handleMeetingInvitation,
   blockUser,
   unblockUser,
+  fetchAllBlockedUsers,
 } = require("../services/user");
 const response = require("../../utils/response");
 
@@ -102,6 +103,18 @@ exports.blockOtherUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     return response.serverError(res, `An error occurred while blocking user with ID ${id}`);
+  }
+};
+
+exports.retrieveBlockedUsers = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  try {
+    const result = await fetchAllBlockedUsers(userId);
+    return response.ok(res, result);
+  } catch (error) {
+    console.error(error);
+    return response.serverError(res, `An error occurred while retrieveing blocked users by : ${id}`);
   }
 };
 

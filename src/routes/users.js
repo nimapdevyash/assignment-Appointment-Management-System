@@ -12,6 +12,7 @@ const {
   handleMeetingInvite,
   blockOtherUser,
   unblockOtherUser,
+  retrieveBlockedUsers,
 } = require("../controllers/user");
 
 // Register routes
@@ -22,6 +23,7 @@ createRoute(
   handleMeetingInvite,
   checkAuth
 );
+createRoute(router, "get", "/block", retrieveBlockedUsers,checkAuth);
 createRoute(router, "put", "/block/:id", blockOtherUser,checkAuth);
 createRoute(router,"put", "/unblock/:id", unblockOtherUser, checkAuth);
 createRoute(router, "post", "/", insertUser);
