@@ -1,20 +1,23 @@
 const ExcelJS = require("exceljs");
-const moment = require("moment");
+const moment = require("moment-timezone");
 const path = require("path");
 const db = require("../models/index");
 const { filePath } = require("../../utils/constant");
 const { BadRequestError, DataNotFoundError } = require("../../utils/customError");
 const { handleSuccess } = require("../../utils/successHandler");
+const { where } = require("../models/user");
 
 exports.createMeeting = async (body, userId) => {
-  const { title, attendees, date, time, attendeesStatus } = body;
+  const { title, attendees, date, time } = body;
 
-  if (!Array.isArray(attendees) || !Array.isArray(attendeesStatus)) {
-    throw new BadRequestError("Attendees and attendeesStatus must be arrays");
+  const user = await db.user.findById(userId) ;
+  
+  if(user.role !== "Manager") {
+    throw new BadRequestError("only managers can create the meetings")
   }
 
-  if (attendees.length !== attendeesStatus.length) {
-    throw new BadRequestError("Number of attendees and statuses must match");
+  if (!Array.isArray(attendees) ) {
+    throw new BadRequestError("Attendees must be array of { attendee , status }");
   }
 
   if (!await isSlotAvailable(userId, date, time)) {
@@ -24,11 +27,10 @@ exports.createMeeting = async (body, userId) => {
   const meeting = await db.meeting.create({
     title,
     createdBy: userId,
-    date: moment(date, "M/D/YYYY").toDate(),
-    time: formatTime(`${date} ${time}`),
+    date: moment.tz(date, "DD-MM-YYYY", "Asia/Kolkata").format("DD-MM-YYYY"),
+    time: moment.tz(`${date} ${time}`, "DD-MM-YYYY hh:mm A", "Asia/Kolkata").format("hh:mm A"),
     attendees,
-    attendeesStatus,
-  });
+  });  
 
   if (!meeting) throw new BadRequestError("Failed to create a meeting");
   return handleSuccess("New meeting created successfully", meeting);
@@ -44,14 +46,27 @@ exports.getAllMeetings = async () => {
 
 exports.getMeetingById = async (id) => {
   const meeting = await db.meeting.findById(id)
-    .populate("createdBy")
-    .populate("attendees");
+    .populate({
+      path : "createdBy",
+      select : "firstName lastName email"
+    })
+    .populate({
+      path : "attendees.attendee",
+      select : "firstName lastName email"
+    });
 
   if (!meeting) throw new DataNotFoundError("Meeting not found");
   return handleSuccess("Meeting fetched successfully", meeting);
 };
 
 exports.deleteMeetingById = async (id) => {
+
+  const user = await db.user.findById(req.user.id) ;
+  
+  if(user.role !== "Manager") {
+    throw new BadRequestError("only managers can delete the meetings")
+  }
+
   const meeting = await db.meeting.findByIdAndUpdate(
     id,
     { deletedAt: new Date() },
@@ -64,49 +79,72 @@ exports.deleteMeetingById = async (id) => {
 
 exports.getUserMeetings = async (userId) => {
   const meetings = await db.meeting.find({ createdBy: userId })
-    .populate("createdBy")
-    .populate("attendees");
+    .populate({
+      path : "createdBy",
+      select : "firstName lastName email"
+    })
+    .populate({
+      path : "attendees",
+      select : "firstName lastName email"
+    });
 
   return handleSuccess("Your meetings are fetched successfully", meetings);
 };
 
 exports.generateMonthlyReportForMeetings = async () => {
+
   const now = moment();
-  const startDate = now.clone().startOf("month").toDate();
-  const endDate = now.clone().endOf("month").toDate();
+  const startDate = moment.tz(now , "DD-MM-YYYY", "Asia/Kolkata").startOf("month").format("DD-MM-YYYY");
+  const endDate = moment.tz(now, "DD-MM-YYYY", "Asia/Kolkata").endOf("month").format("DD-MM-YYYY");
+
+  console.log("s" , startDate) ;
+  console.log("e" , endDate)
 
   const scheduledMeetings = await db.meeting.find({
     date: { $gte: startDate, $lte: endDate }
-  });
+  }).select("title");
 
   const attendedMeetings = await db.meeting.find({
     date: { $gte: startDate, $lte: endDate },
     "attendeesStatus.status": "Accepted",
-  });
+  }).select("title");
 
   return handleSuccess("Monthly report generated successfully", {
-    scheduledMeetings: scheduledMeetings.length,
-    attendedMeetings: attendedMeetings.length,
-    month: now.month(),
+    analytics : {
+      scheduledMeetingsCount: scheduledMeetings.length,
+      attendedMeetingsCount: attendedMeetings.length,
+    },
+    data : {
+      scheduledMeetings: scheduledMeetings,
+      attendedMeetings: attendedMeetings,
+    },
+    month: moment(startDate , "DD-MM-YYYY").format("MMMM"),
   });
 };
 
 exports.generateReportForCustomDate = async ({ startDate, endDate }) => {
-  const sDate = new Date(startDate);
-  const eDate = new Date(endDate);
+  // Parse and convert to IST
+  const sDate = moment.tz(startDate, "DD-MM-YYYY", "Asia/Kolkata").format("DD-MM-YYYY");
+  const eDate = moment.tz(endDate, "DD-MM-YYYY", "Asia/Kolkata").format("DD-MM-YYYY");
 
   const scheduledMeetings = await db.meeting.find({
     date: { $gte: sDate, $lte: eDate },
-  });
+  }).select("title");
 
   const attendedMeetings = await db.meeting.find({
     date: { $gte: sDate, $lte: eDate },
     "attendeesStatus.status": "Accepted",
-  });
+  }).select("title");
 
   return handleSuccess("Report generated successfully", {
-    scheduledMeetings: scheduledMeetings.length,
-    attendedMeetings: attendedMeetings.length,
+    analytics : {
+      scheduledMeetingsCount: scheduledMeetings.length,
+      attendedMeetingsCount: attendedMeetings.length,
+    },
+    data : {
+      scheduledMeetings: scheduledMeetings,
+      attendedMeetings: attendedMeetings,
+    }
   });
 };
 

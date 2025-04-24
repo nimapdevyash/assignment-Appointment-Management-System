@@ -32,12 +32,6 @@ const meetingSchema = new Schema(
     },
     attendees: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "user",
-      },
-    ],
-    attendeesStatus: [
-      {
         attendee: {
           type: Schema.Types.ObjectId,
           ref: "user",
@@ -77,16 +71,16 @@ meetingSchema.pre("save", async function (next) {
       throw new DataNotFoundError("Creator not found");
     }
 
-    for (const id of this.attendees) {
+    for (const obj of this.attendees) {
 
       // cheak if all the attendies are valid
-      const attendee = await db.user.findById(id);
+      const attendee = await db.user.findById(obj.attendee);
       if (!attendee) {
-        throw new DataNotFoundError(`User not found with ID: ${id}`);
+        throw new DataNotFoundError(`User not found with ID: ${obj.attendee}`);
       }
 
       // cheak if creator is blocked by any attendies
-      if (attendee.blockedUser.includes(this.createdBy)) {
+      if (attendee.blockedUser.includes(creator._id)) {
         const error = new DataNotFoundError(
           `You are blocked by user: ${attendee.userName}`
         );

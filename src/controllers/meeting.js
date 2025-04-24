@@ -10,9 +10,10 @@ const {
   generateReportForCustomDate,
   exportUserMeetings,
 } = require("../services/meeting");
+const db = require("../models");
 
 exports.insertMeeting = async (req, res) => {
-  const userId = req["user"].id;
+  const userId = req.user.id;
   try {
     const result = await createMeeting(req.body, userId);
     return response.created(res, result);
