@@ -67,10 +67,8 @@ exports.requestResetPasswordLink = async ({ email }) => {
     throw new DataNotFoundError(`User not found with Email ${email}`);
   }
 
-  const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "15m",
-  });
-
+  const resetToken = createAcessToken({ userId: user._id } , { expiresIn: "15m" }) ;
+  
   const resetUrl = new URL(
     `/api/auth/reset-password/${resetToken}`,
     process.env.URL

@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-function createAcessToken(user) {
+function createAcessToken(user , options = {expiresIn: process.env.EXPIRES_IN || "12h"}) {
   try {
-    const token = jwt.sign(user , process.env.JWT_SECRET)
+    const token = jwt.sign(user , process.env.JWT_SECRET , options )
     return token;
   } catch (error) {
     console.log("token is not created ", error);

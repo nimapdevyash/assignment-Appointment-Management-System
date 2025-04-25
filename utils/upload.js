@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
       fs.mkdirSync(dest, { recursive: true });
     }
 
-    cb(null, dest); // Set the destination folder
+    cb(null, dest);
   },
   filename(req, file, cb) {
     const fileName = `${file.originalname}-${Date.now()}${path.extname(
@@ -44,4 +44,4 @@ exports.upload = multer({
   fileFilter(req, file, cb) {
     checkFileType(file, cb);
   },
-}).fields([{ name: "file", maxCount: 1 }]); // Allow only one file with the name 'file'
+}).fields([{ name: "file", maxCount: 1 }]);

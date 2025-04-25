@@ -6,6 +6,7 @@ const {
 } = require("../services/auth");
 const response = require("../../utils/response");
 const { verifyAcessToken } = require("../services/jwt");
+const { BadRequestError } = require("../../utils/customError");
 
 exports.loginUser = async (req, res) => {
   try {
@@ -65,12 +66,24 @@ exports.sendResetPasswordLink = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   try {
+    
+    const token = req.params?.token;
     const { newPassword } = req.body;
-    const userId = req.user.id ;
 
-    // Ensure new password is provided
     if (!newPassword) {
       return response.badRequest(res, "New password is required.");
+    }
+
+    if(!token) {
+      throw new BadRequestError("token is required in params")
+    }
+    
+    const decodedToken = verifyAcessToken(token) ;
+
+    const userId = decodedToken?.userId ;
+
+    if(!userId) {
+      throw new BadRequestError("invalid access token")
     }
 
     const resetPass = await resetPassword(userId,newPassword);
