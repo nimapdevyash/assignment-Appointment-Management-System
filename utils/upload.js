@@ -4,7 +4,6 @@ const fs = require("fs");
 
 // Set the storage engine for multer
 const storage = multer.diskStorage({
-
   destination(req, file, cb) {
     const dest = "public/uploads/";
 
@@ -16,25 +15,25 @@ const storage = multer.diskStorage({
     cb(null, dest); // Set the destination folder
   },
   filename(req, file, cb) {
-    const fileName = `${file.originalname}-${Date.now()}${path.extname(file.originalname)}`;
-    cb(null, fileName); 
+    const fileName = `${file.originalname}-${Date.now()}${path.extname(
+      file.originalname
+    )}`;
+    cb(null, fileName);
   },
 });
 
 // File type validation
 function checkFileType(file, cb) {
-  const allowedFileTypes = [
-    ".zip", ".xlsx", ".xls", ".docx", ".xlsm", ".png", ".csv",
-  ];
+  const allowedFileTypes = [".xlsx"];
 
   // Extract the file extension
   const fileExtension = path.extname(file.originalname).toLowerCase();
 
   // Check if the file extension is allowed
   if (allowedFileTypes.includes(fileExtension)) {
-    cb(null, true); 
+    cb(null, true);
   } else {
-    cb(new Error("Invalid file type")); 
+    cb(new Error("Invalid file type"));
   }
 }
 
@@ -43,6 +42,6 @@ exports.upload = multer({
   storage,
   limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB file size limit
   fileFilter(req, file, cb) {
-    checkFileType(file, cb); 
+    checkFileType(file, cb);
   },
 }).fields([{ name: "file", maxCount: 1 }]); // Allow only one file with the name 'file'
