@@ -1,3 +1,4 @@
 node_modules/
 .env
 public/exports/*.xlsx
+public/uploads/*.xlsx

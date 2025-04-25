@@ -4,8 +4,8 @@ const db = require("../models/index");
 const { DataNotFoundError } = require("../../utils/customError");
 const { handleSuccess } = require("../../utils/successHandler");
 
-exports.addBulkUpload = async (reqFiles, userId) => {
-  const file = reqFiles?.file?.[0];
+exports.addBulkUpload = async (req, userId) => {
+  const file = req?.file?.[0];
   if (!file) throw new DataNotFoundError("No file uploaded.");
 
   const filePath = file.path;
@@ -65,6 +65,7 @@ async function parseExcelFile(filePath) {
   await workbook.xlsx.readFile(filePath);
 
   const sheet = workbook.getWorksheet(1);
+  
   if (!sheet) return [];
 
   const headers = extractHeaders(sheet);
@@ -74,7 +75,9 @@ async function parseExcelFile(filePath) {
 function extractHeaders(sheet) {
   const headers = [];
   sheet.getRow(1).eachCell((cell) => {
-    headers.push(cell.value);
+    const raw = typeof cell.value === "string" ? cell.value : "";
+    const header = raw.trim(); 
+    headers.push(header);
   });
   return headers;
 }
@@ -85,14 +88,20 @@ function extractRows(sheet, headers) {
   for (let i = 2; i <= sheet.lastRow.number; i++) {
     const row = sheet.getRow(i);
     const data = {};
-
+    let isFoundValues=false;
     headers.forEach((key, index) => {
       const cellValue = row.getCell(index + 1).value;
-      if (key) data[key] = cellValue ?? "";
+      if(!cellValue){
+        return;
+      }
+      if (key) {
+        isFoundValues=true;
+        data[key] = cellValue;
+      }
     });
-
-    rows.push(data);
+    if(isFoundValues){
+      rows.push(data);
+    }
   }
-
   return rows;
 }
